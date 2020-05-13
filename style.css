@@ -1,0 +1,25 @@
+.container {
+  padding-top: 80px;
+}
+#searchHeading {
+  font-size: 22px;
+}
+#listItem:hover {
+  background-color: #e6e6e6;
+}
+#low {
+  background-color: green;
+  color: white;
+}
+#moderate {
+  background-color: yellow;
+  color: black;
+}
+#high {
+  background-color: orangered;
+  color: white;
+}
+#very-high {
+  background-color: red;
+  color: white;
+}
