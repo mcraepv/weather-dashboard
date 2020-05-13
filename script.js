@@ -1,8 +1,9 @@
 $(document).ready(function () {
   var city;
+  var cities = [];
   var apiKey = "8068c24e41107ad9fbda7d1bc1a904ed";
-  var todayURL;
-
+  //adds list to page from local storage
+  listItems();
   $(".btn").on("click", function (event) {
     event.preventDefault();
     weatherSearch();
@@ -19,18 +20,26 @@ $(document).ready(function () {
     var newList = $("<li>").addClass("list-group-item");
     newList.attr("id", "listItem");
     var searchList = $("#searchList");
+    newList.on("click", function () {
+      addToMain();
+    });
     newList.text(city);
     searchList.prepend(newList);
-    // saveListItems();
+    cities.push(city);
+    localStorage.setItem("savedCities", JSON.stringify(cities));
   }
 
   function addToMain() {
+    $("#today").empty();
+    $("#fwdForecast").empty();
     var todayURL =
       "http://api.openweathermap.org/data/2.5/weather?q=" +
       city +
       "&units=imperial" +
       "&appid=" +
       apiKey;
+
+    //current forecast call
     $.ajax({
       url: todayURL,
       method: "GET",
@@ -38,10 +47,8 @@ $(document).ready(function () {
       console.log(response);
       var header = $("<h2>");
       header.addClass("text-center");
-      var d = new Date();
-      header.text(
-        city + " " + d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear()
-      );
+      var dateTodayText = "";
+      header.text(city);
       var temp = $("<p>").text("Temperature: " + response.main.temp + "\xB0F");
       temp.addClass("text-center", "my-1");
       var humid = $("<p>").text("Humidity: " + response.main.humidity + "%");
@@ -58,13 +65,24 @@ $(document).ready(function () {
         lat +
         "&lon=" +
         lon;
+
+      //uv call
       $.ajax({
         url: uvURL,
         method: "GET",
       }).then(function (uvResponse) {
         console.log(uvResponse);
+
+        //grabs date from uv call (current forecast doesn't have a date)
+        var dateToday = uvResponse.date_iso.split("");
+        for (var i = 0; i < 10; i++) {
+          dateTodayText += dateToday[i];
+        }
+        header.text(city + " " + dateTodayText);
+
+        //uv checker
         var uv = parseInt(uvResponse.value);
-        var uvText = $("<mark>").text(uv);
+        var uvText = $("<span>").text(uv);
         if (uv <= 2) {
           uvText.attr("id", "low");
         } else if (uv >= 3 && uv <= 5) {
@@ -84,6 +102,8 @@ $(document).ready(function () {
           "&units=imperial" +
           "&appid=" +
           apiKey;
+
+        //Five day forecast call
         $.ajax({
           url: fiveDayURL,
           method: "GET",
@@ -95,15 +115,15 @@ $(document).ready(function () {
             var thisFWD = fiveResponse.list[i];
             var fwdCard = $("<div>").addClass("card");
             var cardBody = $("<div>").addClass("card-body");
-            var date = thisFWD.dt_txt.split(" ");
-            var dateEl = $("<h4>").text(date[0]);
+            var fwdDate = thisFWD.dt_txt.split(" ");
+            var fwdDateEl = $("<h4>").text(fwdDate[0]);
             var tempEl = $("<p>").text(
               "Temperature: " + thisFWD.main.temp + "\xB0F"
             );
             var humidEl = $("<p>").text(
               "Humidity: " + thisFWD.main.humidity + "%"
             );
-            cardBody.append(dateEl, tempEl, humidEl);
+            cardBody.append(fwdDateEl, tempEl, humidEl);
             fwdCard.append(cardBody);
             var col = $("<div>");
             col.append(fwdCard);
@@ -112,5 +132,22 @@ $(document).ready(function () {
         });
       });
     });
+  }
+  function listItems() {
+    var savedCities = JSON.parse(localStorage.getItem("savedCities"));
+    if (savedCities !== null) {
+      cities = savedCities;
+    }
+    for (var i = 0; i < cities.length; i++) {
+      var newList = $("<li>").addClass("list-group-item");
+      newList.attr("id", "listItem");
+      var searchList = $("#searchList");
+      newList.text(cities[i]);
+      searchList.prepend(newList);
+      newList.on("click", function () {
+        city = newList.text();
+        addToMain();
+      });
+    }
   }
 });

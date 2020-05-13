@@ -21,6 +21,16 @@
   color: white;
 }
 #very-high {
-  background-color: red;
+  background-color: red
   color: white;
+}
+#low,
+#moderate,
+#high,
+#very-high {
+  border-radius: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
