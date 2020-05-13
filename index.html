@@ -16,7 +16,7 @@
     <header class="fixed-top bg-dark p-4">
       <h1 class="text-center text-light">Weather Dashboard</h1>
     </header>
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
       <div class="row">
         <!-- this is the sidebar -->
         <div class="col-3 bg-light" id="sidebar">
@@ -50,6 +50,19 @@
             <div class="col">
               <div class="card">
                 <div class="card-body" id="today"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <div class="col">
+                  <h3>
+                    5-Day Forecast:
+                  </h3>
+                </div>
+              </div>
+              <div class="row" id="fwdForecast"></div>
               </div>
             </div>
           </div>

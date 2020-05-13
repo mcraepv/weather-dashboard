@@ -92,6 +92,22 @@ $(document).ready(function () {
           var len = fiveResponse.list.length;
           for (var i = 2; i < len; i += 8) {
             console.log(fiveResponse.list[i]);
+            var thisFWD = fiveResponse.list[i];
+            var fwdCard = $("<div>").addClass("card");
+            var cardBody = $("<div>").addClass("card-body");
+            var date = thisFWD.dt_txt.split(" ");
+            var dateEl = $("<h4>").text(date[0]);
+            var tempEl = $("<p>").text(
+              "Temperature: " + thisFWD.main.temp + "\xB0F"
+            );
+            var humidEl = $("<p>").text(
+              "Humidity: " + thisFWD.main.humidity + "%"
+            );
+            cardBody.append(dateEl, tempEl, humidEl);
+            fwdCard.append(cardBody);
+            var col = $("<div>");
+            col.append(fwdCard);
+            $("#fwdForecast").append(col);
           }
         });
       });
