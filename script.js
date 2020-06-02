@@ -97,7 +97,7 @@ $(document).ready(function () {
           uvText.attr("id", "moderate");
         } else if (uv >= 6 && uv <= 7) {
           uvText.attr("id", "high");
-        } else if (uv > 8) {
+        } else if (uv >= 8) {
           uvText.attr("id", "very-high");
         }
         var uvEl = $("<p>").text("UV Index: ");
