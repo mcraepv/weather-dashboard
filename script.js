@@ -46,11 +46,9 @@ $(document).ready(function () {
       url: todayURL,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
       var header = $("<h2>");
       var dateTodayText = "";
       var todayIconCode = response.weather[0].icon;
-      console.log(todayIconCode);
       var todayIcon = $("<img>").attr(
         "src",
         "https://openweathermap.org/img/wn/" + todayIconCode + "@2x.png"
@@ -79,8 +77,6 @@ $(document).ready(function () {
         url: uvURL,
         method: "GET",
       }).then(function (uvResponse) {
-        console.log(uvResponse);
-
         //grabs date from uv call (current forecast doesn't have a date)
         var dateToday = uvResponse.date_iso.split("");
         for (var i = 0; i < 10; i++) {
@@ -116,10 +112,8 @@ $(document).ready(function () {
           url: fiveDayURL,
           method: "GET",
         }).then(function (fiveResponse) {
-          console.log(fiveResponse);
           var len = fiveResponse.list.length;
           for (var i = 2; i < len; i += 8) {
-            console.log(fiveResponse.list[i]);
             var thisFWD = fiveResponse.list[i];
             var fwdCard = $("<div>").addClass("card");
             var cardBody = $("<div>").addClass("card-body");
