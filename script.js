@@ -139,6 +139,7 @@ $(document).ready(function () {
             cardBody.append(fwdDateEl, fwdIcon, tempEl, humidEl);
             fwdCard.append(cardBody);
             var col = $("<div>");
+            col.addClass("col-xl-2 px-xl-0 mx-xl-3 col-md-6 mt-2");
             col.append(fwdCard);
             $("#fwdForecast").append(col);
           }
